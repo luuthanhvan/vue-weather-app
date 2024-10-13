@@ -1,19 +1,9 @@
 <template>
   <div>
-
+    <HomeView />
   </div>
 </template>
 
-<script>
-export default {
-  setup () {
-    
-
-    return {}
-  }
-}
+<script setup>
+  import HomeView from './views/HomeView.vue';
 </script>
-
-<style lang="scss" scoped>
-
-</style>
