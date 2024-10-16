@@ -9,10 +9,10 @@
       </RouterLink>
       <div class="flex gap-3">
         <i 
-          class="text-xl duration-150 cursor-pointer hover:text-weather-secondary fa-solid fa-circle-info"
+          class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-slate-200 fa-solid fa-circle-info"
           @click="toggleModal"
         ></i>
-        <i class="text-xl duration-150 cursor-pointer hover:text-weather-secondary fa-solid fa-plus"></i>
+        <i class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-slate-200 fa-solid fa-plus"></i>
       </div>
 
       <BaseModal :modalActive="modalActive" @closeModal="toggleModal">
