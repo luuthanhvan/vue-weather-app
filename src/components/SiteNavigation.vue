@@ -8,11 +8,14 @@
         </div>
       </RouterLink>
       <div class="flex gap-3">
-        <i class="text-xl duration-150 cursor-pointer hover:text-weather-secondary fa-solid fa-circle-info"></i>
+        <i 
+          class="text-xl duration-150 cursor-pointer hover:text-weather-secondary fa-solid fa-circle-info"
+          @click="toggleModal"
+        ></i>
         <i class="text-xl duration-150 cursor-pointer hover:text-weather-secondary fa-solid fa-plus"></i>
       </div>
 
-      <BaseModal>
+      <BaseModal :modalActive="modalActive" @closeModal="toggleModal">
         <div class="pb-3 mb-3 border-b-2 text-slate-950">
           <h1 class="mb-1 text-2xl font-bold">About</h1>
           <p>The Local Weather allows you to track the current and future weather of cities of your choosing.</p>
@@ -39,7 +42,9 @@
   import { RouterLink } from "vue-router";
   import BaseModal from "./BaseModal.vue";
   import * as ruleIcons from '@/assets/icons/index';
-
+  import { ref } from "vue";
+  
+  const modalActive = ref(false);
   const rules = [
     {
       id: 'searching',
@@ -66,5 +71,7 @@
       icon: ruleIcons.Remove,
     },
   ];
-
+  const toggleModal = () => {
+    modalActive.value = !modalActive.value;
+  };
 </script>
