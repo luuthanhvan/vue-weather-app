@@ -1,5 +1,7 @@
 <template>
-  <header class="sticky top-0 shadow-lg bg-weather-primary">
+  <header
+    class="sticky top-0 shadow-sm shadow-weather-secondary bg-weather-primary"
+  >
     <nav
       class="container flex flex-col items-center justify-between py-6 text-white sm:flex-row"
     >
@@ -11,16 +13,16 @@
       </RouterLink>
       <div class="flex gap-3">
         <i
-          class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-slate-200 fa-solid fa-circle-info"
+          class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-weather-active fa-solid fa-circle-info"
           @click="toggleModal"
         ></i>
         <i
-          class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-slate-200 fa-solid fa-plus"
+          class="text-xl transition duration-150 ease-in-out delay-100 cursor-pointer hover:-translate-y-1 hover:scale-110 hover:text-weather-active fa-solid fa-plus"
         ></i>
       </div>
 
       <BaseModal :modalActive="modalActive" @closeModal="toggleModal">
-        <div class="pb-3 mb-3 border-b-2 text-slate-950">
+        <div class="pb-3 mb-3 border-b border-gray-300 text-weather-primary">
           <h1 class="mb-1 text-2xl font-bold">About</h1>
           <p>
             The Local Weather allows you to track the current and future weather
@@ -29,7 +31,7 @@
         </div>
 
         <div class="mt-3 mb-3">
-          <h3 class="mb-2 text-lg font-medium text-slate-950">How it works</h3>
+          <h3 class="mb-2 text-lg font-medium text-weather-primary">How it works</h3>
           <div
             class="flex items-center mb-2"
             v-for="rule in rules"
@@ -37,7 +39,7 @@
           >
             <div class="w-[20px] h-[20px] mt-1">
               <component
-                class="w-[20px] h-[20px] fill-weather-secondary"
+                class="w-[20px] h-[20px] fill-weather-line"
                 :is="rule.icon"
               />
             </div>
