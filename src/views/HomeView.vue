@@ -25,10 +25,10 @@
           class="w-full py-2 mt-2 rounded-lg shadow-md bg-weather-secondary"
           v-if="mapboxSearchResults"
         >
-          <p v-if="searchError">
+          <p class="px-2 italic align-middle" v-if="searchError">
             Sorry, something went wrong, please try again.
           </p>
-          <p v-if="!searchError && mapboxSearchResults.length === 0">
+          <p class="px-2 italic text-center" v-if="!searchError && mapboxSearchResults.length === 0">
             No results match your query, try a different term.
           </p>
           <template v-else>
