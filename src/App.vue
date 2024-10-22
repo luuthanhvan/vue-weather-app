@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <HomeView />
+  <div class="flex flex-col min-h-screen font-Roboto bg-weather-primary">
+    <SiteNavigation />
+    <RouterView />
   </div>
 </template>
 
 <script setup>
-import HomeView from "./views/HomeView.vue";
+import { RouterView } from "vue-router";
+import SiteNavigation from "@/components/SiteNavigation.vue";
 </script>

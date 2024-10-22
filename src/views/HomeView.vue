@@ -1,58 +1,64 @@
 <template>
-  <div class="flex flex-col min-h-screen font-Roboto bg-weather-primary">
-    <SiteNavigation />
-    <main class="container text-white">
-      <div class="mt-6">
-        <div class="relative block">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <component class="w-[16px] h-[16px] fill-gray-300" :is="Search" />
-          </span>
-          <input
-            type="text"
-            v-model="searchQuery"
-            @input="getSearchResults"
-            placeholder="Search for a city or state"
-            class="block placeholder:italic w-full py-2 pl-9 pr-3 bg-weather-secondary rounded-lg focus:border focus:border-weather-active focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
-          />
-          <span
-            @click="clearSearchQuery"
-            class="absolute end-2.5 bottom-2.5 cursor-pointer hover:bg-weather-ternary hover:rounded-full"
-          >
-            <component class="w-[22px] h-[22px] fill-gray-300" :is="Clear" />
-          </span>
-        </div>
-        <ul
-          class="w-full py-2 mt-2 rounded-lg shadow-md bg-weather-secondary"
-          v-if="mapboxSearchResults"
+  <main class="container text-white">
+    <div class="mt-6">
+      <div class="relative block">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <component class="w-[16px] h-[16px] fill-gray-300" :is="Search" />
+        </span>
+        <input
+          type="text"
+          v-model="searchQuery"
+          @input="getSearchResults"
+          placeholder="Search for a city or state"
+          class="block placeholder:italic w-full py-2 pl-9 pr-3 bg-weather-secondary rounded-lg focus:border focus:border-weather-active focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
+        />
+        <span
+          v-if="searchQuery"
+          @click="clearSearchQuery"
+          class="absolute end-2.5 bottom-2.5 cursor-pointer hover:bg-weather-ternary hover:rounded-full"
         >
-          <p class="px-2 italic align-middle" v-if="searchError">
-            Sorry, something went wrong, please try again.
-          </p>
-          <p class="px-2 italic text-center" v-if="!searchError && mapboxSearchResults.length === 0">
-            No results match your query, try a different term.
-          </p>
-          <template v-else>
-            <li
-              class="flex items-center px-2 py-2 cursor-pointer hover:bg-weather-ternary"
-              v-for="searchResult in mapboxSearchResults"
-              :key="searchResult.id"
-            >
-              <component class="w-[16px] h-[16px] fill-gray-300 mr-2 " :is="Search" />
-              {{ searchResult.place_name }}
-            </li>
-          </template>
-        </ul>
+          <component class="w-[22px] h-[22px] fill-gray-300" :is="Clear" />
+        </span>
       </div>
-    </main>
-  </div>
+      <ul
+        class="w-full py-2 mt-2 rounded-lg shadow-md bg-weather-secondary"
+        v-if="mapboxSearchResults"
+      >
+        <p class="px-2 italic align-middle" v-if="searchError">
+          Sorry, something went wrong, please try again.
+        </p>
+        <p
+          class="px-2 italic text-center"
+          v-if="!searchError && mapboxSearchResults.length === 0"
+        >
+          No results match your query, try a different term.
+        </p>
+        <template v-else>
+          <li
+            class="flex items-center px-2 py-2 cursor-pointer hover:bg-weather-ternary"
+            v-for="searchResult in mapboxSearchResults"
+            :key="searchResult.id"
+            @click="previewCity(searchResult)"
+          >
+            <component
+              class="w-[16px] h-[16px] fill-gray-300 mr-2"
+              :is="Search"
+            />
+            {{ searchResult.place_name }}
+          </li>
+        </template>
+      </ul>
+    </div>
+  </main>
 </template>
 
 <script setup>
-import SiteNavigation from "@/components/SiteNavigation.vue";
 import axios from "axios";
 import { ref } from "vue";
 import { Search, Clear } from "@/assets/icons/index";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const mapboxAPIKey =
   "pk.eyJ1Ijoiam9obmtvbWFybmlja2kiLCJhIjoiY2t5NjFzODZvMHJkaDJ1bWx6OGVieGxreSJ9.IpojdT3U3NENknF6_WhR2Q";
 const searchQuery = ref("");
@@ -87,5 +93,17 @@ const clearSearchQuery = () => {
   if (searchQuery.value !== "") {
     resetData();
   }
+};
+const previewCity = (searchResult) => {
+  const [city, state] = searchResult.place_name.split(",");
+  router.push({
+    name: "cityView",
+    params: { state: state.replaceAll(" ", ""), city },
+    query: {
+      lng: searchResult.geometry.coordinates[0], // longitude
+      lat: searchResult.geometry.coordinates[1], // latitude
+      preview: true,
+    },
+  });
 };
 </script>
